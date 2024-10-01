@@ -11,7 +11,7 @@ use require_lifetimes::require_lifetimes;
 /// assert_eq!(identity(&x), &x);
 /// ````
 #[require_lifetimes(!)]
-pub fn identity(number: &i32) -> &i32 {
+pub fn identity<'lifetime1>(number: &'lifetime1 i32) -> &'lifetime1 i32 {
     number
 }
 
@@ -37,17 +37,17 @@ pub fn identity(number: &i32) -> &i32 {
 /// But this example will only work if the lifetimes are correct:
 ///
 /// ```rust
-/// use ex02::split;
-/// let text = String::from("this is a test");
-/// let splitted = {
-///     let delimiter = String::from(" ");
-///     split(&text, &delimiter)
-///     // delimiter is dropped here.
-/// };
-/// assert_eq!(splitted, vec!["this", "is", "a", "test"]);
+// / use ex02::split;
+// / let text = String::from("this is a test");
+// / let splitted = {
+// /     let delimiter = String::from(" ");
+// /     split(&text, &delimiter)
+// /     // delimiter is dropped here.
+// / };
+// / assert_eq!(splitted, vec!["this", "is", "a", "test"]);
 /// ```
 #[require_lifetimes(!)]
-pub fn split(text: &str, delimiter: &str) -> Vec<&str> {
+pub fn split<'lifetime1,'lifetime2>(text: &'lifetime1 str, delimiter: &'lifetime2 str) -> Vec<&'lifetime1 str> {
     let mut last_split = 0;
     let mut matches: Vec<&str> = vec![];
     for i in 0..text.len() {
@@ -120,7 +120,7 @@ pub fn split(text: &str, delimiter: &str) -> Vec<&str> {
 /// assert_eq!(&num, answer);
 /// ```
 #[require_lifetimes(!)]
-pub fn only_if_greater_hard(number: &i32, greater_than: &i32, otherwise: &i32) -> &i32 {
+pub fn only_if_greater_hard<'l2,'life>(number: &'life i32, greater_than: &'l2 i32, otherwise: &'life i32) -> &'life i32 {
     if number > greater_than {
         number
     } else {
